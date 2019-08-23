@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var prompt = require('prompt');
 var defaultOptions = require('./default');
+const objectAssignDeep = require('object-assign-deep');
 
 var args = process.argv.slice(2);
 
@@ -67,8 +68,12 @@ function buildConfig(env) {
 
   if (fs.existsSync(fpath)) {
     config = JSON.parse(fs.readFileSync(path.join(process.cwd(), options.configFile), 'utf8')) || {};
-    config.expo = config.expo || {};
-    config.expo.extra = envFile;
+    if ('expo' in envFile) {
+      config = objectAssignDeep(config, envFile);
+    } else {
+      config.expo = config.expo || {};
+      config.expo.extra = envFile;
+    }
     fs.writeFileSync(path.join(process.cwd(), options.outputFile), JSON.stringify(config, null, 2), 'utf8');
   }
 }

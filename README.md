@@ -1,3 +1,8 @@
+# modifications from manoj-nama/expo-env:
+- check if NNN.config.js has { expo:{}} structure
+- if so, use object-assign-deep to do deep merge
+- otherwise assume the NNN.config.js only contains the extra section.
+
 # expo-env
 .env solution for React Native apps Built with EXPO
 
