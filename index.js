@@ -52,7 +52,7 @@ if (!fs.existsSync(path.join(process.cwd(), options.configFile))) {
   buildConfig(passedEnv);
 }
 
-function buildConfig(env) {
+async function buildConfig(env) {
   var fpath = path.join(process.cwd(), options.configFile),
     envFilePath = path.join(process.cwd(), options.configPath,  env + "." + options.template),
     envFile,
@@ -64,7 +64,7 @@ function buildConfig(env) {
     return;
   }
 
-  envFile = require(envFilePath) || {};
+  envFile = (await require(envFilePath)) || {};
 
   if (fs.existsSync(fpath)) {
     config = JSON.parse(fs.readFileSync(path.join(process.cwd(), options.configFile), 'utf8')) || {};
