@@ -11,7 +11,7 @@ var args = process.argv.slice(2);
 
 // --configPath=./config
 var cliOptions = {};
-args.forEach(function (arg) {
+args.forEach(function(arg) {
   var splitArr = arg.split('=');
   if (splitArr.length) {
     var k = splitArr[0].split('--');
@@ -24,6 +24,7 @@ args.forEach(function (arg) {
 });
 
 var options = Object.assign({}, defaultOptions, cliOptions);
+global.expoEnvOptions = options;
 var passedEnv = options.env || "development";
 
 prompt.start();
@@ -37,7 +38,7 @@ if (!fs.existsSync(path.join(process.cwd(), options.configFile))) {
     description: 'Would you like to create one now?',
     type: 'string',
     required: true
-  }], function (err, result) {
+  }], function(err, result) {
     var validAnswers = { 'y': true, 'yes': true, 'true': true };
     if (validAnswers.hasOwnProperty(result.createFile.toLowerCase())) {
       createConfigFile();
@@ -54,7 +55,7 @@ if (!fs.existsSync(path.join(process.cwd(), options.configFile))) {
 
 async function buildConfig(env) {
   var fpath = path.join(process.cwd(), options.configFile),
-    envFilePath = path.join(process.cwd(), options.configPath,  env + "." + options.template),
+    envFilePath = path.join(process.cwd(), options.configPath, env + "." + options.template),
     envFile,
     targetFile,
     config;
